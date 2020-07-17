@@ -53,6 +53,7 @@ int main()
 		verticalLine.DrawWall();
 
 		Position firstPositionSnake(10, 10);
+
 		PlayerObject Snake(3, char(42)); // *
 		Snake.DrawSnake(firstPositionSnake, "right");
 

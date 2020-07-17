@@ -18,7 +18,6 @@ public:
 	  list <short> objectPositionX, objectPositionY;
 	  short nextXPosition, nextYPosition;
 	  char _material; int _width;
-	  wchar_t buff;
 	  short _positionX, _positionY; 
 	  LPDWORD dwReaden; PWSTR wAttrib;
 
@@ -26,19 +25,6 @@ public: PlayerObject(int width, char material)
 	  {
 		_width = width;
 		_material = material;
-	  }
-
-	  int ReadPoint(short x, short y)
-	  {
-		  DWORD cbRead = 0;
-		  HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
-
-		  Position(x, y); CONSOLE_SCREEN_BUFFER_INFO info;
-		  GetConsoleScreenBufferInfo(hCon, &info);
-		  COORD pos = { info.dwCursorPosition.X, info.dwCursorPosition.Y };
-		  ReadConsoleOutputCharacter(hCon, &buff, 1, pos, &cbRead);
-
-		  return buff;
 	  }
 
 
@@ -49,14 +35,14 @@ public: PlayerObject(int width, char material)
 		  {
 			  nextXPosition = objectPositionX.back();
 			  nextYPosition = objectPositionY.back();
-			  if (ReadPoint(++nextXPosition, nextYPosition) == 32)
+			  if (Position::ReadPoint(++nextXPosition, nextYPosition) == 32)
 			  {
 				  DellPoint();
 				  AddPoint();
 				  Sleep(100);
 			  }
 
-			  else if(ReadPoint(nextXPosition, nextYPosition) == 35)
+			  else if(Position::ReadPoint(nextXPosition, nextYPosition) == 35)
 			  {
 				  AddPoint();
 				  Sleep(100);
@@ -66,7 +52,7 @@ public: PlayerObject(int width, char material)
 			  {
 				  system("cls");
 				  Position(0, 0);
-				  cout << "Game over! ÃˆÃ£Ã°Ã  Ã®ÃªÃ®Ã­Ã·Ã¥Ã­Ã !\n";
+				  cout << "Game over! Èãðà îêîí÷åíà!\n";
 				  losing = true;
 				  
 			  }
@@ -76,14 +62,14 @@ public: PlayerObject(int width, char material)
 		  {
 			  nextXPosition = objectPositionX.back();
 			  nextYPosition = objectPositionY.back();
-			  if (ReadPoint(--nextXPosition, nextYPosition) == 32)
+			  if (Position::ReadPoint(--nextXPosition, nextYPosition) == 32)
 			  {
 				  DellPoint();
 				  AddPoint();
 				  Sleep(100);
 			  }
 
-			  else if (ReadPoint(nextXPosition, nextYPosition) == 35)
+			  else if (Position::ReadPoint(nextXPosition, nextYPosition) == 35)
 			  {
 				  AddPoint();
 				  Sleep(100);
@@ -93,7 +79,7 @@ public: PlayerObject(int width, char material)
 			  {
 				  system("cls");
 				  Position(0, 0);
-				  cout << "Game over! ÃˆÃ£Ã°Ã  Ã®ÃªÃ®Ã­Ã·Ã¥Ã­Ã !\n";
+				  cout << "Game over! Èãðà îêîí÷åíà!\n";
 				  losing = true;
 			  }
 		  }
@@ -102,14 +88,14 @@ public: PlayerObject(int width, char material)
 		  {
 			  nextXPosition = objectPositionX.back();
 			  nextYPosition = objectPositionY.back();
-			  if (ReadPoint(nextXPosition, --nextYPosition) == 32)
+			  if (Position::ReadPoint(nextXPosition, --nextYPosition) == 32)
 			  {
 				  DellPoint();
 				  AddPoint();
 				  Sleep(100);
 			  }
 
-			  else if (ReadPoint(nextXPosition, nextYPosition) == 35)
+			  else if (Position::ReadPoint(nextXPosition, nextYPosition) == 35)
 			  {
 				  AddPoint();
 				  Sleep(100);
@@ -119,7 +105,7 @@ public: PlayerObject(int width, char material)
 			  {
 				  system("cls");
 				  Position(0, 0);
-				  cout << "Game over! ÃˆÃ£Ã°Ã  Ã®ÃªÃ®Ã­Ã·Ã¥Ã­Ã !\n";
+				  cout << "Game over! Èãðà îêîí÷åíà!\n";
 				  losing = true;
 
 			  }
@@ -129,14 +115,14 @@ public: PlayerObject(int width, char material)
 		  {
 			  nextXPosition = objectPositionX.back();
 			  nextYPosition = objectPositionY.back();
-			  if (ReadPoint(nextXPosition, ++nextYPosition) == 32)
+			  if (Position::ReadPoint(nextXPosition, ++nextYPosition) == 32)
 			  {
 				  DellPoint();
 				  AddPoint();
 				  Sleep(100);
 			  }
 
-			  else if (ReadPoint(nextXPosition, nextYPosition) == 35)
+			  else if (Position::ReadPoint(nextXPosition, nextYPosition) == 35)
 			  {
 				  AddPoint();
 				  Sleep(100);
@@ -146,7 +132,7 @@ public: PlayerObject(int width, char material)
 			  {
 				  system("cls");
 				  Position(0, 0);
-				  cout << "Game over! ÃˆÃ£Ã°Ã  Ã®ÃªÃ®Ã­Ã·Ã¥Ã­Ã !\n";
+				  cout << "Game over! Èãðà îêîí÷åíà!\n";
 				  losing = true;
 			  }
 		  }
@@ -156,22 +142,22 @@ public: PlayerObject(int width, char material)
 		{
 			switch(_click)
 			{
-			case 162: case 130: case 100: case 68: // Ã¢, Ã‚, d, D
+			case 162: case 130: case 100: case 68: // â, Â, d, D
 				if (_direction != "left") return "right";
 				else return "left";
 				break;
 
-			case 228: case 148: case 97: case 65: // Ã´, Ã”, a, A
+			case 228: case 148: case 97: case 65: // ô, Ô, a, A
 				if (_direction != "right") return "left";
 				else return "right";
 				break;
 
-			case 230: case 119: case 150: case 87:  // Ã¶, Ã–, w, W
+			case 230: case 119: case 150: case 87:  // ö, Ö, w, W
 				if (_direction != "bottom") return "top";
 				else return "bottom";
 				break;
 
-			case 235: case 155: case 63: case 115: case 83:  // Ã», Ã›, Â³/Â², s, S
+			case 235: case 155: case 63: case 115: case 83:  // û, Û, ³/², s, S
 				if (_direction != "top") return "bottom";
 				else return "top";
 				break;
